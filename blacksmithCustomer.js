@@ -74,7 +74,7 @@ function buyItem () {
     },
     {
       name: 'quant',
-      message: 'Enter the quanity of the item you would like to buy:'
+      message: 'How many would you like to buy?'
     }
   ]).then(input => {
     // Find the item in the table based on id
@@ -83,7 +83,7 @@ function buyItem () {
     const query = 'SELECT * FROM products WHERE item_id = ?'
     connection.query(query, [id], (err, res) => {
       if (err) throw err
-      const stockQuant = res[0].stock_quantity
+      const stockQuant = parseInt(res[0].stock_quantity)
       const itemName = res[0].product_name
       const itemPrice = res[0].price
       const totalPrice = itemPrice * userQuant
@@ -98,7 +98,7 @@ function buyItem () {
       connection.query(updateQuery, [newQuant, id], (err, res) => {
         if (err) throw err
         log(`You bought ${userQuant} ${itemName}(s) for ${totalPrice} gold.`)
-        goBack('"Thanks for your purchase!"')
+        goBack('\n\n"Thanks for your purchase!"')
       })
     })
   })
