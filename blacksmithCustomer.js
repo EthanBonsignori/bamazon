@@ -25,8 +25,8 @@ function enterBlacksmith () {
     type: 'list',
     message: `You enter the local blacksmith shop. The burly man behind the counter raises an arm towards the shelves. "Welcome! Care to view my wares?"`,
     choices: ['"Yes" [Open Shop]', `Run away screaming [Exit App]`]
-  }).then(choice => {
-    switch (choice.enter) {
+  }).then(res => {
+    switch (res.enter) {
       case '"Yes" [Open Shop]':
         return showBlacksmith()
       case 'Run away screaming [Exit App]':
@@ -52,8 +52,8 @@ function showBlacksmith () {
       message: 'What would you like to do?',
       type: 'list',
       choices: ['Buy', 'Gossip', 'Leave Blacksmith [Exit App]']
-    }).then(choice => {
-      switch (choice.buy) {
+    }).then(res => {
+      switch (res.buy) {
         case 'Buy':
           return buyItem()
         case 'Gossip':
@@ -123,8 +123,8 @@ function goBack (message) {
     name: 'back',
     message: message,
     choices: ['Go back', 'Leave Blacksmith [Exit App]']
-  }).then(choice => {
-    switch (choice.back) {
+  }).then(res => {
+    switch (res.back) {
       case 'Go back':
         return showBlacksmith()
       case 'Leave Blacksmith [Exit App]':
