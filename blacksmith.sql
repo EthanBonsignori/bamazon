@@ -47,5 +47,3 @@ values ('Copper Sword', 'Weapons', '40', '8');
 
 INSERT INTO products (product_name, product_category, price, stock_quantity)
 values ('Hammer', 'Tools', '15', '1');
-
-SELECT * FROM products;

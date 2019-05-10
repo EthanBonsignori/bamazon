@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 
 const log = console.log
 
-// MySQL connection options
+// MySQL connection options ** REPLACE THESE WITH YOUR OPTIONS **
 const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
@@ -70,10 +70,12 @@ function buyItem () {
   inquirer.prompt([
     {
       name: 'id',
+      type: 'input',
       message: 'Enter the item_id of the item you would like to buy:'
     },
     {
       name: 'quant',
+      type: 'input',
       message: 'How many would you like to buy?'
     }
   ]).then(input => {

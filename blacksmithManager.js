@@ -3,7 +3,7 @@ const inquirer = require('inquirer')
 
 const log = console.log
 
-// MySQL connection options
+// MySQL connection options ** REPLACE THESE WITH YOUR OPTIONS **
 const connection = mysql.createConnection({
   host: 'localhost',
   port: 3306,
@@ -84,6 +84,7 @@ function showLowInventory () {
   })
 }
 
+// Create new stock of items already owned
 function craftNewInventory () {
   log(`\n\n You put on your gloves and grab your hammer. Time to create.\n`)
   // Show table of products
@@ -95,10 +96,12 @@ function craftNewInventory () {
     inquirer.prompt([
       {
         name: 'id',
+        type: 'input',
         message: 'Enter the item_id of the item you would like to create more of:'
       },
       {
         name: 'quant',
+        type: 'input',
         message: 'How many would you like to create?'
       }
     ]).then(input => {
@@ -129,6 +132,64 @@ function craftNewInventory () {
   })
 }
 
+// Create totally new items
+async function craftNewProduct () {
+  log(`\n\n"Looking to make something new to 'wow' the customers, are we? Don't go too crazy."`)
+  // Get the category of the new item first from the existing categories
+  inquirer.prompt([
+    {
+      name: 'category',
+      type: 'list',
+      message: `\n\nWhat is the category of your new item?`,
+      choices: await getCategories()
+    },
+    {
+      name: 'name',
+      type: 'input',
+      message: 'What is the name of your new item?'
+    },
+    {
+      name: 'quant',
+      type: 'input',
+      message: 'How many would you like to make?'
+    },
+    {
+      name: 'price',
+      type: 'input',
+      message: 'What is the price of one of these items?'
+    }
+  ]).then(input => {
+    const query = 'INSERT INTO products SET ?'
+    connection.query(query, {
+      product_name: input.name,
+      product_category: input.category,
+      price: input.price,
+      stock_quantity: input.quant
+    }, (err, res) => {
+      if (err) throw err
+      log(`Successfully created ${input.quant} ${input.name}(s)! On sale now for the low price of ${input.price} gold.`)
+      goBack(`\n\nReady to end your day?`)
+    })
+  })
+}
+
+// Grabs all available product categories for user to select
+async function getCategories () {
+  const query = 'SELECT * FROM products'
+  return new Promise(resolve => {
+    connection.query(query, (err, res) => {
+      if (err) throw err
+      const categoriesArr = []
+      for (let i = 0; i < res.length; i++) {
+        if (!categoriesArr.includes(res[i].product_category)) {
+          categoriesArr.push(res[i].product_category)
+        }
+      }
+      resolve(categoriesArr)
+    })
+  })
+}
+
 // Generic 'go back' list prompt, message altered by function argument
 function goBack (message) {
   inquirer.prompt({
@@ -148,6 +209,6 @@ function goBack (message) {
 
 // Exit the application
 function exitApp () {
-  log('\n"Please come again!"\n\nExiting Blacksmith...')
+  log('\n"Off to the pub again, son?"\n\nExiting Blacksmith...')
   connection.end()
 }

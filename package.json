@@ -1,5 +1,5 @@
 {
-  "name": "bamazon",
+  "name": "blacksmith",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,13 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EthanBonsignori/bamazon.git"
+    "url": "git+https://github.com/EthanBonsignori/blacksmith.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/EthanBonsignori/bamazon/issues"
+    "url": "https://github.com/EthanBonsignori/blacksmith/issues"
   },
-  "homepage": "https://github.com/EthanBonsignori/bamazon#readme"
+  "homepage": "https://github.com/EthanBonsignori/blacksmith#readme"
 }
