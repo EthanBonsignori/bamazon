@@ -59,6 +59,7 @@ function initDB () {
           connection.query(query)
         }
         // Exit app
+        console.log(`Added ${tableDataArr.length} items to the product table...`)
         console.log('Database initialized! Exiting...')
         connection.end()
       })
