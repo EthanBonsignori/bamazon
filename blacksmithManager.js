@@ -23,7 +23,7 @@ function enterBlacksmith () {
   inquirer.prompt({
     name: 'enter',
     type: 'list',
-    message: `You are the son of the local blacksmith ready for another day of work. You enter the shop to see your father preoccupied, as usual...`,
+    message: `You are the son of the local blacksmith ready for another day of work. You enter the shop to see your father preoccupied, as usual...\n\n`,
     choices: ['Get to work! [Open App]', `Go to the tavern for a beer. [Close App]`]
   }).then(res => {
     switch (res.enter) {
@@ -40,8 +40,8 @@ function showOptions () {
   inquirer.prompt({
     name: 'choice',
     type: 'list',
-    message: `\n\nWhat would you like to do?`,
-    choices: ['View Products for Sale', 'View Low Inventory', 'Craft New Inventory', 'Craft New Product']
+    message: `What would you like to do?\n`,
+    choices: ['View Products for Sale', 'View Low Inventory', 'Craft New Inventory', 'Craft New Product', 'Leave Blacksmith [Exit App]']
   }).then(res => {
     switch (res.choice) {
       case 'View Products for Sale':
@@ -52,6 +52,8 @@ function showOptions () {
         return craftNewInventory()
       case 'Craft New Product':
         return craftNewProduct()
+      case 'Leave Blacksmith [Exit App]':
+        exitApp()
     }
   })
 }
@@ -107,7 +109,7 @@ function craftNewInventory () {
     ]).then(input => {
       // Find the product they want to add in the database and store the users desired quantity to add
       const id = input.id
-      const userQuant = input.quant
+      const userQuant = parseInt(input.quant)
       const query = 'SELECT * FROM products WHERE item_id = ?'
       connection.query(query, [id], (err, res) => {
         if (err) throw err
@@ -124,8 +126,8 @@ function craftNewInventory () {
         const updateQuery = 'UPDATE products SET stock_quantity = ? WHERE item_id = ?'
         connection.query(updateQuery, [newQuant, id], (err, res) => {
           if (err) throw err
-          log(`You magically crafted ${userQuant} ${itemName}(s) instantly. (Let's not tell anyone about your secret). You now have ${newQuant} ${itemName}(s).`)
-          goBack('\n\nTime to take a break?')
+          log(`\nYou magically crafted ${userQuant} ${itemName}(s) instantly. (Let's not tell anyone about your secret). You now have ${newQuant} ${itemName}(s).\n`)
+          goBack('Time to take a break?')
         })
       })
     })
@@ -134,13 +136,13 @@ function craftNewInventory () {
 
 // Create totally new items
 async function craftNewProduct () {
-  log(`\n\n"Looking to make something new to 'wow' the customers, are we? Don't go too crazy."`)
+  log(`\n"Looking to make something new to 'wow' the customers, are we? Don't go too crazy."\n`)
   // Get the category of the new item first from the existing categories
   inquirer.prompt([
     {
       name: 'category',
       type: 'list',
-      message: `\n\nWhat is the category of your new item?`,
+      message: `What is the category of your new item?`,
       choices: await getCategories()
     },
     {
@@ -156,7 +158,7 @@ async function craftNewProduct () {
     {
       name: 'price',
       type: 'input',
-      message: 'What is the price of one of these items?'
+      message: 'What is the gold price of one of these items?'
     }
   ]).then(input => {
     const query = 'INSERT INTO products SET ?'
@@ -167,8 +169,8 @@ async function craftNewProduct () {
       stock_quantity: input.quant
     }, (err, res) => {
       if (err) throw err
-      log(`Successfully created ${input.quant} ${input.name}(s)! On sale now for the low price of ${input.price} gold.`)
-      goBack(`\n\nReady to end your day?`)
+      log(`\nSuccessfully created ${input.quant} ${input.name}(s)! On sale now for the low price of ${input.price} gold each.\n`)
+      goBack(`Ready to end your day?`)
     })
   })
 }
