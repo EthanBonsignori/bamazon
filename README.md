@@ -22,11 +22,11 @@ This app was created to help me better understand interacting with MySQL through
 ---
 
 # How to Use
-1. Set up a local MySQL server. A guide can be found [here](https://dev.mysql.com/doc/workbench/en/wb-getting-started-tutorial-create-connection.html).
-2. Open the `initDB.js` file and set your username and password. (default: `root`)
-3. Download and install `node.js` from [nodejs.org](https://nodejs.org/en/)
-4. Clone or download this repository onto you machine.
-5. Using your terminal navigate to the folder you cloned or downloaded.
+1. Clone or download this repository onto you machine.
+2. Set up a local MySQL server. A guide can be found [here](https://dev.mysql.com/doc/workbench/en/wb-getting-started-tutorial-create-connection.html).
+3. Open the `initDB.js` file and set your username and password. (default: `root`)
+4. Download and install `node.js` from [nodejs.org](https://nodejs.org/en/) 
+5. Using your terminal of choice, navigate to the blacksmith folder you cloned or downloaded.
 6. Enter `node initDB.js` (this will create a database and fill it with some data.)
 ![initDB](https://user-images.githubusercontent.com/47482104/57575287-9ede1300-7415-11e9-98ec-40f34beda7d5.gif)
 7. Use either `node blacksmithCustomer` or `node blacksmithManager` to run the app.
